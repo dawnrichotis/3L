@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="cart.css" />
+    <link rel="shortcut icon" href="logo.png" type="logo.png" />
+    <title>購物車</title>
+    <style>
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .check {
+            width: 20px;
+        }
+
+        .delete {
+            color: #846e89;
+            cursor: pointer;
+        }
+
+        .total {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        #checkout {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        
+        .product {
+            display: inline-block;
+            margin: 20px;
+            text-align: center;
+        }
+        .product img {
+            max-width: 200px;
+            max-height: 200px;
+            margin-bottom: 10px;
+        }
+        .add-to-cart {
+            background-color: #846e89;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>購物車</h1>
+
+    
+    <div class="product">
+        <img src="woman.jpg" alt="女装">
+        <h2>女装</h2>
+        <p>價格：$410</p>
+        <button class="add-to-cart" onclick="addProductToCart('女装', 410)">添加到購物車</button>
+    </div>
+
+    <div class="product">
+        <img src="man.jpg" alt="男装">
+        <h2>男装</h2>
+        <p>價格：$289</p>
+        <button class="add-to-cart" onclick="addProductToCart('男装', 289)">添加到購物車</button>
+    </div>
+
+    <div class="product">
+        <img src="underwear.jpg" alt="内衣">
+        <h2>内衣</h2>
+        <p>價格：$690</p>
+        <button class="add-to-cart" onclick="addProductToCart('内衣', 690)">添加到購物車</button>
+    </div>
+
+    
+    <h2>購物車</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class="check"></th>
+                <th>商品名稱</th>
+                <th>價格</th>
+                <th>數量</th>
+                <th>小計</th>
+                <th class="delete"></th>
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="total">總計：</td>
+                <td class="total" id="total">0.00</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div id="checkout">
+        <button onclick="checkout()">結算</button>
+    </div>
+
+    <script>
+        // 計算小計和總計
+        function updateSubtotal() {
+            var rows = document.querySelectorAll('.item-row');
+            var total = 0;
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var price = parseFloat(row.querySelector('td:nth-child(3)').textContent);
+                var quantity = parseInt(row.querySelector('input[name="quantity[]"]').value);
+                var subtotal = price * quantity;
+                row.querySelector('.subtotal').textContent = subtotal.toFixed(2);
+                total += subtotal;
+            }
+            document.querySelector('#total').textContent = total.toFixed(2);
+        }
+
+        // 刪除商品
+        function deleteItem() {
+            var row = this.parentNode;
+            row.parentNode.removeChild(row);
+            updateSubtotal();
+        }
+
+        // 添加商品到購物车
+        function addProductToCart(name, price) {
+            var table = document.querySelector('table tbody');
+            var row = table.insertRow(-1);
+            row.classList.add('item-row');
+            row.dataset.id = Date.now(); // 生成一个隨機ID
+            row.innerHTML = `
+                <td class="check"><input type="checkbox" name="item[]" value="${row.dataset.id}"></td>
+                <td>${name}</td>
+                <td>${price.toFixed(2)}</td>
+                <td><input type="number" name="quantity[]" value="1"></td>
+                <td class="subtotal">${price.toFixed(2)}</td>
+                <td class="delete">X</td>
+            `;
+            row.querySelector('.delete').addEventListener('click', deleteItem);
+            row.querySelector('input[name="quantity[]"]').addEventListener('input', updateSubtotal);
+            updateSubtotal();
+        }
+
+        // 結算選中的商品
+        function checkout() {
+            var items = document.querySelectorAll('input[name="item[]"]:checked');
+            var ids = [];
+            for (var i = 0; i < items.length; i++) {
+                ids.push(items[i].value);
+            }
+            if (ids.length > 0) {
+                window.location.href = 'checkout.php?ids=' + ids.join(',');
+            } else {
+                alert('請選擇要結算的商品');
+            }
+        }
+
+        // 绑定事件
+        var deleteButtons = document.querySelectorAll('.delete');
+        for (var i = 0; i < deleteButtons.length; i++) {
+            deleteButtons[i].addEventListener('click', deleteItem);
+        }
+    </script>
+</body>
+</html>
