@@ -759,18 +759,7 @@ z-index: 2;
 	font-size: 20px;
 	text-align: center;
 }
-@media only screen and (max-width: 600px) {
-	/* Kiểu CSS cho màn hình có chiều rộng tối đa 600px */
-}
-  
-ontainer {
-	display: flex;
-	flex-wrap: wrap;
-}
-  
-.item {
-	flex: 1;
-}
+
   
 
 
