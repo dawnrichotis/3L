@@ -763,10 +763,7 @@ z-index: 2;
 	/* Kiểu CSS cho màn hình có chiều rộng tối đa 600px */
 }
   
-@media only screen and (min-width: 601px) and (max-width: 1024px) {
-	/* Kiểu CSS cho màn hình có chiều rộng từ 601px đến 1024px */
-}
-.container {
+ontainer {
 	display: flex;
 	flex-wrap: wrap;
 }
