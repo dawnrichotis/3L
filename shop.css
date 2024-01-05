@@ -761,19 +761,19 @@ z-index: 2;
 }
 @media only screen and (max-width: 600px) {
 	/* Kiểu CSS cho màn hình có chiều rộng tối đa 600px */
-  }
+}
   
-  @media only screen and (min-width: 601px) and (max-width: 1024px) {
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
 	/* Kiểu CSS cho màn hình có chiều rộng từ 601px đến 1024px */
-  }
+}
 .container {
 	display: flex;
 	flex-wrap: wrap;
-  }
+}
   
 .item {
 	flex: 1;
-  }
+}
   
 
 
